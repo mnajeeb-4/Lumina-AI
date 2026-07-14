@@ -2,13 +2,12 @@ import os
 import tempfile
 from typing import List, Optional
 import streamlit as st
-from langchain_community.document_loaders import PyPDFLoader, TextLoader
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 from langchain_openai import OpenAIEmbeddings
 from langchain_community.vectorstores import FAISS
-from langchain.chains import ConversationalRetrievalChain
+from langchain_community.chains import ConversationalRetrievalChain   # ✅ moved
 from langchain_openai import ChatOpenAI
-from langchain.memory import ConversationBufferMemory
+from langchain_community.memory import ConversationBufferMemory     # ✅ moved
 from modules.database import add_knowledge_entry, update_bot_vector_path
 
 VECTOR_STORE_ROOT = "data/faiss_index"
@@ -81,8 +80,8 @@ def get_conversation_chain(vector_store: FAISS, system_prompt: str, api_key: str
         output_key="answer"
     )
     # Inject system prompt into the condense question prompt to maintain persona
-    from langchain.prompts import ChatPromptTemplate, MessagesPlaceholder, SystemMessagePromptTemplate
-    # Customize the condense question prompt
+   from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder, SystemMessagePromptTemplate
+   # Customize the condense question prompt
     condense_prompt = ChatPromptTemplate.from_messages([
         SystemMessagePromptTemplate.from_template(
             "Given the following conversation and a follow up question, rephrase the follow up question to be a standalone question.\n"
